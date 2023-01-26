@@ -9,14 +9,14 @@ public class App
     public void Run()
     {
         EnsurePreHashedFileExists();
-        var dictionary = GetHashedPasswordDictionry();
+        var dictionary = GetHashedPasswordDictionary();
         while (true)
         {
             Console.WriteLine("Ange hash:");
             var hash = Console.ReadLine();
 
 
-            if (hash != null)
+            if (!string.IsNullOrEmpty(hash))
             {
                 var password = dictionary[hash];
                 Console.WriteLine(password);
@@ -24,7 +24,7 @@ public class App
         }
     }
 
-    private Dictionary<string, string> GetHashedPasswordDictionry()
+    private Dictionary<string, string> GetHashedPasswordDictionary()
     {
         string fileName = "hashadelosen.txt";
         string projectPath = AppDomain.CurrentDomain.BaseDirectory;
