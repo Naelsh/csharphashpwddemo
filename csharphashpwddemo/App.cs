@@ -9,13 +9,42 @@ public class App
     public void Run()
     {
         EnsurePreHashedFileExists();
+        var dictionary = GetHashedPasswordDictionry();
         while (true)
         {
             Console.WriteLine("Ange hash:");
             var hash = Console.ReadLine();
-            //TODO Skriv kod som söker i hashadelosen.txt och 
-            //Hittar du denna hash så är ju lösenordet på samma rad!
+
+
+            if (hash != null)
+            {
+                var password = dictionary[hash];
+                Console.WriteLine(password);
+            }
         }
+    }
+
+    private Dictionary<string, string> GetHashedPasswordDictionry()
+    {
+        string fileName = "hashadelosen.txt";
+        string projectPath = AppDomain.CurrentDomain.BaseDirectory;
+        string filePath = Path.Combine(projectPath, fileName);
+
+        string line;
+
+        Dictionary<string, string> dictionary = new Dictionary<string, string>();
+
+        using (StreamReader sr = new StreamReader(filePath))
+        {
+            while ((line = sr.ReadLine()) != null)
+            {
+                string[] parts = line.Split(' ');
+                string key = parts[0];
+                string value = parts[1];
+                dictionary.Add(key, value);
+            }
+        }
+        return dictionary;
     }
 
     private void EnsurePreHashedFileExists()
